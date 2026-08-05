@@ -1,0 +1,4 @@
+spring: {application: {name: recommendationservice}}
+server: {port: "${SERVER_PORT:8088}", shutdown: graceful}
+clients: {product: {base-url: "${PRODUCT_SERVICE_URL:http://localhost:8080}"}}
+management: {endpoints: {web: {exposure: {include: health,info}}}}
