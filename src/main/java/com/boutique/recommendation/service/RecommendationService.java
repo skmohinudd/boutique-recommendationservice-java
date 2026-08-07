@@ -1,7 +1,1 @@
-package com.boutique.recommendation.service;
-import org.springframework.beans.factory.annotation.Value;import org.springframework.stereotype.Service;import org.springframework.web.client.RestClient;
-@Service public class RecommendationService{
- private final RestClient client;
- public RecommendationService(RestClient.Builder b,@Value("${clients.product.base-url}")String u){client=b.baseUrl(u).build();}
- public Object recommendations(){return client.get().uri("/api/v1/products").retrieve().body(Object.class);}
-}
+package com.boutique.recommendation.service;import com.boutique.recommendation.dto.RecommendationResponse;import org.springframework.beans.factory.annotation.Value;import org.springframework.stereotype.Service;import org.springframework.web.client.RestClient;import java.util.*;@Service public class RecommendationService{private final RestClient client;public RecommendationService(RestClient.Builder b,@Value("${clients.product.base-url}")String u){client=b.baseUrl(u).build();}public RecommendationResponse recommendations(UUID userId,int limit){Object body=client.get().uri("/api/v1/products").retrieve().body(Object.class);List<Object> items=body instanceof List<?> l?new ArrayList<>(l):List.of(body);return new RecommendationResponse("POPULAR_FALLBACK",items.stream().limit(Math.max(1,Math.min(limit,50))).toList());}}

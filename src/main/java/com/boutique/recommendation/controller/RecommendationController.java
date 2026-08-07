@@ -1,6 +1,1 @@
-package com.boutique.recommendation.controller;
-import com.boutique.recommendation.service.RecommendationService;import org.springframework.web.bind.annotation.*;
-@RestController @RequestMapping("/api/v1/recommendations") public class RecommendationController{
- private final RecommendationService s; public RecommendationController(RecommendationService s){this.s=s;}
- @GetMapping public Object list(){return s.recommendations();}
-}
+package com.boutique.recommendation.controller;import com.boutique.recommendation.dto.RecommendationResponse;import com.boutique.recommendation.service.RecommendationService;import org.springframework.web.bind.annotation.*;import java.util.UUID;@RestController @RequestMapping("/api/v1/recommendations")public class RecommendationController{private final RecommendationService service;public RecommendationController(RecommendationService s){service=s;}@GetMapping("/users/{userId}")public RecommendationResponse get(@PathVariable UUID userId,@RequestParam(defaultValue="10")int limit){return service.recommendations(userId,limit);}}
